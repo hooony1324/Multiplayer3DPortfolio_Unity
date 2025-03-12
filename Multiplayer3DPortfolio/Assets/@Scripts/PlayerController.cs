@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
         
 
         
-        Managers.InputManager.OnRightClick += Move;
+        Managers.Input.OnRightClick += Move;
     }
 
     void Move(Vector3 position, GameObject hitObject)

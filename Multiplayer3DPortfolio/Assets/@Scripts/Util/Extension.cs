@@ -2,6 +2,35 @@ using UnityEngine;
 
 public static class Extension
 {
+    public static T FindChild<T>(this Transform transform, string name, bool recursive = true) where T : UnityEngine.Object
+    {
+        Transform found = recursive ? transform.RecursiveFindChild(name) : 
+                                    transform.Find(name);
+        if (found == null) return null;
+        
+        if (typeof(T) == typeof(GameObject))
+            return found.gameObject as T;
+        
+        return found.GetComponent<T>();
+    }
+
+    public static Transform RecursiveFindChild(this Transform transform, string childName)
+    {
+        if (transform == null) return null;
+
+        foreach (Transform child in transform)
+        {
+            if (child.name == childName)
+                return child;
+
+            Transform found = child.RecursiveFindChild(childName);
+            if (found != null)
+                return found;
+        }
+
+        return null;
+    }
+    
     public static T FindComponentInChildren<T>(this Transform transform, string name, bool includeInactive = false) where T : Component
     {
         // 비활성화된 오브젝트도 검색할지 여부에 따라 다른 메서드 사용
