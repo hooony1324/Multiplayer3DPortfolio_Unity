@@ -10,9 +10,9 @@ public class UI_SlotItem : UI_Base
     {
         _parentScrollRect = Util.FindAncestor<ScrollRect>(gameObject);
 
-        gameObject.BindEvent(null, OnBeginDrag, EUIEvent.BeginDrag);
-        gameObject.BindEvent(null, OnDrag, EUIEvent.Drag);
-        gameObject.BindEvent(null, OnEndDrag, EUIEvent.EndDrag);
+        BindEvent(gameObject, null, OnBeginDrag, EUIEvent.BeginDrag);
+        BindEvent(gameObject, null, OnDrag, EUIEvent.Drag);
+        BindEvent(gameObject, null, OnEndDrag, EUIEvent.EndDrag);
     }
 
     public virtual void OnBeginDrag(PointerEventData eventData)

@@ -6,14 +6,8 @@ using Unity.Services.Lobbies.Models;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class LobbyManager : InitializeBase
+public class LobbyManager : MonoBehaviour
 {
-    private UI_Lobby _uiLobby;
-    protected override void OnInit()
-    {
-        _uiLobby = FindFirstObjectByType<UI_Lobby>();
-    }
-
 
     #region Joining
     public Lobby CurrentLobby { get; private set; }

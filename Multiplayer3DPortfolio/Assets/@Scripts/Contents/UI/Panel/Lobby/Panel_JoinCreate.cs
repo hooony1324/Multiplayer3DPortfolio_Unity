@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,7 +5,6 @@ public class Panel_JoinCreate : UI_Base
 {
     enum Buttons
     {
-        Btn_Create,
         Btn_Join,
         Btn_QuickJoin,
         Btn_Refresh,
@@ -21,11 +19,6 @@ public class Panel_JoinCreate : UI_Base
 
     }
 
-    void OnClickCreate()
-    {
-        Managers.Lobby.CreateLobbyWithCode(10, "123456").Forget();
-    }
-
     void OnClickJoin()
     {
         Debug.Log("OnClickJoin");
@@ -33,7 +26,7 @@ public class Panel_JoinCreate : UI_Base
 
     void OnClickQuickJoin()
     {
-        Managers.Lobby.QuickJoinLobby().Forget();
+        
     }
 
     void OnClickRefresh()

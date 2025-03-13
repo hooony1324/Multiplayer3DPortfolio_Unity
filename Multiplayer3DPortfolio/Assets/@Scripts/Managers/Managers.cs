@@ -1,7 +1,6 @@
 using UnityEngine;
 using Unity.Services.Core;
 using System;
-using Unity.Services.Authentication;
 public class Managers : MonoBehaviour
 {
     private static Managers _instance;

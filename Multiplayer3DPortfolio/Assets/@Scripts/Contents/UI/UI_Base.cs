@@ -2,6 +2,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
+
+public enum EUIEvent
+{
+        Click,
+        PointerDown,
+        PointerUp,
+        Drag,
+        BeginDrag,
+        EndDrag,
+}
+
 
 public class UI_Base : InitializeBase
 {
@@ -56,5 +68,38 @@ public class UI_Base : InitializeBase
         }
 
         return obj as T;
+    }
+
+    public void BindEvent(GameObject go, Action action = null, Action<PointerEventData> dragAction = null, EUIEvent type = EUIEvent.Click)
+    {
+        UI_EventHandler evt = Util.GetOrAddComponent<UI_EventHandler>(go);
+
+        switch (type)
+        {
+            case EUIEvent.Click:
+                evt.OnClickHandler -= action;
+                evt.OnClickHandler += action;
+                break;
+            case EUIEvent.PointerDown:
+                evt.OnPointerDownHandler -= action;
+                evt.OnPointerDownHandler += action;
+                break;
+            case EUIEvent.PointerUp:
+                evt.OnPointerUpHandler -= action;
+                evt.OnPointerUpHandler += action;
+                break;
+            case EUIEvent.Drag:
+                evt.OnDragHandler -= dragAction;
+                evt.OnDragHandler += dragAction;
+                break;
+            case EUIEvent.BeginDrag:
+                evt.OnBeginDragHandler -= dragAction;
+                evt.OnBeginDragHandler += dragAction;
+                break;
+            case EUIEvent.EndDrag:
+                evt.OnEndDragHandler -= dragAction;
+                evt.OnEndDragHandler += dragAction;
+                break;
+        }
     }
 } 

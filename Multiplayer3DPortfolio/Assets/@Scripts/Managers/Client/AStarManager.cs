@@ -22,8 +22,8 @@ public class AStarManager : MonoBehaviour
         AstarPath.active.Scan();
 
         // TODO : NetPlayer중 Owner가 있는 플레이어의 위치를 찾아서 타겟으로 설정
-        _proceduralGraphmover.target = FindFirstObjectByType<PlayerController>().transform;
-        _proceduralGraphmover.enabled = true;
+        //_proceduralGraphmover.target = FindFirstObjectByType<PlayerController>().transform;
+        //_proceduralGraphmover.enabled = true;
     }
 
 
