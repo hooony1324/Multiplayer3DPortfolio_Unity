@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-
+using Object = UnityEngine.Object;
 public class Util
 {
     public static T GetOrAddComponent<T>(GameObject go) where T : UnityEngine.Component
@@ -16,7 +16,7 @@ public class Util
         Transform transform = FindChild<Transform>(go, name, recursive);
         if (transform == null)
             return null;
-        
+
         return transform.gameObject;
     }
 
@@ -38,4 +38,17 @@ public class Util
 
         return null;
     }
-} 
+
+    public static T FindAncestor<T>(GameObject go) where T : Object
+    {
+        Transform t = go.transform;
+        while (t != null)
+        {
+            T component = t.GetComponent<T>();
+            if (component != null)
+                return component;
+            t = t.parent;
+        }
+        return null;
+    }
+}

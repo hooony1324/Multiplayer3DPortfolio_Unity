@@ -3,8 +3,10 @@ using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 
-public class UI_Base : MonoBehaviour
+public class UI_Base : InitializeBase
 {
+    protected override void OnInit() {}
+    
     protected Dictionary<Type, Dictionary<string, UnityEngine.Object>> _objects = new Dictionary<Type, Dictionary<string, UnityEngine.Object>>();
 
     protected void Bind<T>(Type type) where T : UnityEngine.Object
