@@ -17,12 +17,14 @@ public class UI_Login : UI_Base
     {
         Bind<Button>(typeof(Buttons));
 
+        Get<Button>(Buttons.Button_Login_GameCenter).onClick.AddListener(OnClickLogin_GameCenter);
         Get<Button>(Buttons.Button_Login_Guest).onClick.AddListener(OnClickLogin_Guest);
     }
 
     void OnClickLogin_GameCenter()
     {
         Debug.Log("OnClickLogin_GameCenter");
+        Managers.UI.ShowPopupMessage("GameCenter 로그인 중입니다.");
     }
 
     void OnClickLogin_Guest()

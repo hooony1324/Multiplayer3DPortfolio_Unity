@@ -26,12 +26,15 @@ public class Managers : MonoBehaviour
     private AuthManager _authManager;
     private SceneManagerEx _sceneManagerEx;
 
+    
+    private UIManager _uiManager;
+
     public static InputManager Input => Instance._inputManager;
     public static AStarManager AStar => Instance._aStarManager;
     public static LobbyManager Lobby => Instance._lobbyManager;
     public static AuthManager Auth => Instance._authManager;
     public static SceneManagerEx Scene => Instance._sceneManagerEx;
-
+    public static UIManager UI => Instance._uiManager;
     async void Awake()
     {
         _inputManager = transform.FindComponentInChildren<InputManager>("InputManager");
@@ -39,6 +42,8 @@ public class Managers : MonoBehaviour
         _lobbyManager = transform.FindComponentInChildren<LobbyManager>("LobbyManager");
         _authManager = transform.FindComponentInChildren<AuthManager>("AuthManager");
         _sceneManagerEx = transform.FindComponentInChildren<SceneManagerEx>("SceneManagerEx");
+        
+        _uiManager = transform.FindComponentInChildren<UIManager>("UIManager");
 
         try
         {
