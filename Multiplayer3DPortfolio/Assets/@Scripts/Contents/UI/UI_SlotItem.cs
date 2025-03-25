@@ -8,7 +8,7 @@ public class UI_SlotItem : UI_Base
 
     protected override void OnInit()
     {
-        _parentScrollRect = Util.FindAncestor<ScrollRect>(gameObject);
+        _parentScrollRect = gameObject.FindAncestor<ScrollRect>(gameObject);
 
         BindEvent(gameObject, null, OnBeginDrag, EUIEvent.BeginDrag);
         BindEvent(gameObject, null, OnDrag, EUIEvent.Drag);

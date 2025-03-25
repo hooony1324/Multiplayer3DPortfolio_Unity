@@ -72,6 +72,49 @@ public class LobbyManager : MonoBehaviour
             return false;
         }
     }
+
+    public async UniTaskVoid GetLobbyList()
+    {
+        try
+        {
+            QueryLobbiesOptions options = new QueryLobbiesOptions();
+            options.Count = 25;
+
+            // Filter for open lobbies only
+            options.Filters = new List<QueryFilter>()
+            {
+                new QueryFilter(
+                field: QueryFilter.FieldOptions.AvailableSlots,
+                op: QueryFilter.OpOptions.GT,
+                value: "0")
+            };
+
+            // Order by newest lobbies first
+            options.Order = new List<QueryOrder>()
+            {
+                new QueryOrder(
+                asc: false,
+                field: QueryOrder.FieldOptions.Created)
+            };
+
+            QueryResponse lobbies = await LobbyService.Instance.QueryLobbiesAsync(options);
+
+            Debug.Log($"Lobbies: {lobbies.Results.Count}");
+
+            foreach (var lobby in lobbies.Results)
+            {
+                Debug.Log($"Lobby: {lobby.Name}");
+                Debug.Log($"Lobby: {lobby.AvailableSlots}");
+                Debug.Log($"Lobby: {lobby.HasPassword}");
+                Debug.Log($"Lobby: {lobby.LobbyCode}");
+                Debug.Log($"Lobby: {lobby.MaxPlayers}");
+            }
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
     #endregion
 
 
@@ -96,28 +139,19 @@ public class LobbyManager : MonoBehaviour
         TryDeleteLobby().Forget();
     }
 
-    public async UniTask<Lobby> CreateLobbyWithIp(int maxPlayers, string ip, ushort port)
+    public async UniTask<Lobby> CreateLobbyWithPassword(int maxPlayers, string lobbyName, string password = null)
     {
-        var data = new Dictionary<string, string>
+        // 비밀번호 유효성 검사 추가
+        if (password != null && password.Length < 8)
         {
-            { "ip", ip },
-            { "port", port.ToString() }
-        };
-
-        return await CreateLobby(maxPlayers, data);
+            Managers.UI.ShowPopupMessage("Password must be at least 8 characters long");
+            return null;
+        }
+        
+        return await CreateLobby(maxPlayers, lobbyName, password);
     }
 
-    public async UniTask<Lobby> CreateLobbyWithCode(int maxPlayers, string code)
-    {
-        var data = new Dictionary<string, string>
-        {
-            { "code", code }
-        };
-
-        return await CreateLobby(maxPlayers, data);
-    }
-
-    private async UniTask<Lobby> CreateLobby(int maxPlayers, Dictionary<string, string> publicData = null,
+    private async UniTask<Lobby> CreateLobby(int maxPlayers, string lobbyName = null, string password = null, Dictionary<string, string> publicData = null,
      Dictionary<string, string> privateData = null, Dictionary<string, string> memberData = null)
     {
         if (CurrentLobby != null)
@@ -160,9 +194,15 @@ public class LobbyManager : MonoBehaviour
                     createLobbyOptions.Data.Add(key, new DataObject(DataObject.VisibilityOptions.Member, value));
             }
 
-            CurrentLobby = 
-                await LobbyService.Instance.CreateLobbyAsync($"{MyTools.GetRandomString(10)}", maxPlayers, createLobbyOptions);
-            
+            if (lobbyName == null)
+                lobbyName = MyTools.GetRandomString(10);
+
+            if (password != null)
+                createLobbyOptions.Password = password;
+
+            CurrentLobby =
+                await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, createLobbyOptions);
+
             _lastHeartBeatTime = Time.time;
 
             Debug.Log($"Lobby Created: {CurrentLobby.Id}", this);
@@ -185,7 +225,7 @@ public class LobbyManager : MonoBehaviour
         {
             var id = CurrentLobby.Id;
             CurrentLobby = null;
-            
+
             await LobbyService.Instance.DeleteLobbyAsync(id);
             Debug.Log("Lobby Deleted", this);
 
@@ -202,7 +242,7 @@ public class LobbyManager : MonoBehaviour
     {
         if (CurrentLobby == null)
             return false;
-        
+
         try
         {
             await LobbyService.Instance.SendHeartbeatPingAsync(CurrentLobby.Id);
@@ -239,7 +279,6 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    #endregion 
-    
+    #endregion
 
 }

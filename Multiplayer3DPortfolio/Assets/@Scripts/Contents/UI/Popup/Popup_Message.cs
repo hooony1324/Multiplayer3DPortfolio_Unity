@@ -8,9 +8,8 @@ public class Popup_Message : UI_Base
 
     protected override void OnInit()
     {
-        _screenBlocker = Util.FindChild(gameObject, "ScreenBlocker");
-        GameObject messageText = Util.FindChild(gameObject, "MessageText", true);
-        _messageText = messageText.GetComponent<TextMeshProUGUI>();
+        _screenBlocker = transform.FindChild<GameObject>("ScreenBlocker");
+        _messageText = transform.FindChild<TextMeshProUGUI>("MessageText");
 
         BindEvent(_screenBlocker, OnClickScreenBlocker);
 
@@ -21,7 +20,7 @@ public class Popup_Message : UI_Base
         _messageText.text = message;
     }
 
-    public void OnClickScreenBlocker()
+    private void OnClickScreenBlocker()
     {
         gameObject.SetActive(false);
     }

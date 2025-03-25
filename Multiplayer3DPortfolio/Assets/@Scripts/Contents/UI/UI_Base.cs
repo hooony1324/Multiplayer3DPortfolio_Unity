@@ -33,7 +33,7 @@ public class UI_Base : InitializeBase
 
         foreach (string name in names)
         {
-            UnityEngine.Object obj = transform.FindChild<T>(name);
+            UnityEngine.Object obj = transform.FindChild<T>(name, includeInactive: true, recursive: true);
             if (obj == null)
             {
                 Debug.LogError($"Failed to bind({name})");
@@ -72,7 +72,7 @@ public class UI_Base : InitializeBase
 
     public void BindEvent(GameObject go, Action action = null, Action<PointerEventData> dragAction = null, EUIEvent type = EUIEvent.Click)
     {
-        UI_EventHandler evt = Util.GetOrAddComponent<UI_EventHandler>(go);
+        UI_EventHandler evt = go.GetOrAddComponent<UI_EventHandler>();
 
         switch (type)
         {

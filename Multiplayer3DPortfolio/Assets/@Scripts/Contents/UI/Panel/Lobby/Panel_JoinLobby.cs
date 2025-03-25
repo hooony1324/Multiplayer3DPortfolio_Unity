@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Panel_JoinCreate : UI_Base
+public class Panel_JoinLobby : UI_Base
 {
     enum Buttons
     {
@@ -14,9 +14,11 @@ public class Panel_JoinCreate : UI_Base
     {
         base.OnInit();
 
-        Bind<Button>(typeof(Buttons));
+        Bind<GameObject>(typeof(Buttons));
 
-
+        //Get<GameObject>(Buttons.Btn_Join).onClick.AddListener(OnClickJoin);
+        //Get<GameObject>(Buttons.Btn_QuickJoin).onClick.AddListener(OnClickQuickJoin);
+        BindEvent(Get<GameObject>(Buttons.Btn_Refresh), OnClickRefresh);
     }
 
     void OnClickJoin()
@@ -31,6 +33,6 @@ public class Panel_JoinCreate : UI_Base
 
     void OnClickRefresh()
     {
-        Debug.Log("OnClickRefresh");
+        Managers.Lobby.GetLobbyList().Forget();
     }
 }
