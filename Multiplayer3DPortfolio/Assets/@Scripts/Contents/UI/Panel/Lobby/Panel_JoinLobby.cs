@@ -18,7 +18,9 @@ public class Panel_JoinLobby : UI_Base
 
         //Get<GameObject>(Buttons.Btn_Join).onClick.AddListener(OnClickJoin);
         //Get<GameObject>(Buttons.Btn_QuickJoin).onClick.AddListener(OnClickQuickJoin);
-        BindEvent(Get<GameObject>(Buttons.Btn_Refresh), OnClickRefresh);
+        GameObject refreshButton = Get<GameObject>(Buttons.Btn_Refresh);
+        BindEvent(refreshButton, OnClickRefresh);
+        refreshButton.GetOrAddComponent<RateLimitVisibility>().SetInfo(refreshButton, LobbyManager.RequestType.Query);
     }
 
     void OnClickJoin()
@@ -33,6 +35,6 @@ public class Panel_JoinLobby : UI_Base
 
     void OnClickRefresh()
     {
-        Managers.Lobby.GetLobbyList().Forget();
+        Managers.Lobby.RefreshLobbyList();
     }
 }

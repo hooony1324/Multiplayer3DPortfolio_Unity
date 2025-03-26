@@ -102,4 +102,23 @@ public class UI_Base : InitializeBase
                 break;
         }
     }
+
+
+    private bool _showing = false;
+    public void Show()
+    {
+        CanvasGroup canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
+        canvasGroup.alpha = 1f;
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
+        _showing = true;
+    }
+    public void Hide(float targetAlpha = 0.5f)
+    {
+        CanvasGroup canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
+        canvasGroup.alpha = targetAlpha;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+        _showing = false;
+    }
 } 

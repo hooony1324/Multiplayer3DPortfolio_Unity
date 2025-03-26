@@ -28,5 +28,17 @@ public class Panel_LobbyRooms : UI_Base
         //     GameObject obj = Instantiate(_roomSlotPrefab, _content);
             
         // }
+
+        EventBus.Subscribe<LobbyListUpdateEvent>(OnLobbyListUpdate);
+    }
+
+    void OnEnable()
+    {
+        Managers.Lobby.RefreshLobbyList();
+    }
+    
+    private void OnLobbyListUpdate(LobbyListUpdateEvent eventData)
+    {
+        Debug.Log("OnLobbyListUpdate: " + eventData.QueryResponse.Results.Count);
     }
 }

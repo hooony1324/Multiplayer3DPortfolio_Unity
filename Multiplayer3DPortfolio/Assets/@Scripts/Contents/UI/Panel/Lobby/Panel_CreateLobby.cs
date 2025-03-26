@@ -30,6 +30,9 @@ public class Panel_CreateLobby : UI_Base
         string lobbyPassword = Get<TMP_InputField>(TMP_InputFields.InputField_LobbyPassword).text;
 
         // Create Lobby
-        Managers.Lobby.CreateLobbyWithPassword(4, lobbyName, lobbyPassword).Forget();
+        if (string.IsNullOrEmpty(lobbyPassword))
+            Managers.Lobby.CreateLobbyWithPassword(4, lobbyName);
+        else
+            Managers.Lobby.CreateLobbyWithPassword(4, lobbyName, lobbyPassword);
     }
 }
