@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using static Define;
 
 public class Panel_JoinLobby : UI_Base
 {
@@ -20,7 +21,9 @@ public class Panel_JoinLobby : UI_Base
         //Get<GameObject>(Buttons.Btn_QuickJoin).onClick.AddListener(OnClickQuickJoin);
         GameObject refreshButton = Get<GameObject>(Buttons.Btn_Refresh);
         BindEvent(refreshButton, OnClickRefresh);
-        refreshButton.GetOrAddComponent<RateLimitVisibility>().SetInfo(refreshButton, LobbyManager.RequestType.Query);
+
+        RateLimiter rateLimiter = Managers.Lobby.GetRateLimiter(ERequestType.Query);
+        refreshButton.SetRateLimited(rateLimiter);
     }
 
     void OnClickJoin()
@@ -35,6 +38,6 @@ public class Panel_JoinLobby : UI_Base
 
     void OnClickRefresh()
     {
-        Managers.Lobby.RefreshLobbyList();
+        Managers.Lobby.RefreshLobbies();
     }
 }

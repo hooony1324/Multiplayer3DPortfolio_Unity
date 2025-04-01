@@ -124,11 +124,13 @@ public class Panel_Tabs : UI_Base
             // 현재 활성화된 페이지 비활성화
             if (currentTabIndex >= 0 && currentTabIndex < tabPages.Count)
             {
-                tabPages[currentTabIndex].SetActive(false);
+                if (tabPages[currentTabIndex].activeSelf)
+                    tabPages[currentTabIndex].SetActive(false);
             }
 
             // 새 페이지 활성화
-            tabPages[tabIndex].SetActive(true);
+            if (!tabPages[tabIndex].activeSelf)
+                tabPages[tabIndex].SetActive(true);
             
             // 모든 탭 선택 해제
             foreach (TabButton button in tabButtons)

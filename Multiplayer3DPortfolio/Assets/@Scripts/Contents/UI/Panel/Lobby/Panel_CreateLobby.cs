@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using Cysharp.Threading.Tasks;
+using static Define;
 public class Panel_CreateLobby : UI_Base
 {
     enum TMP_InputFields
@@ -21,7 +20,11 @@ public class Panel_CreateLobby : UI_Base
         Bind<TMP_InputField>(typeof(TMP_InputFields));
         Bind<GameObject>(typeof(GameObjects));
 
-        BindEvent(Get<GameObject>(GameObjects.Button_CreateLobby), OnClickCreateLobby);
+
+        GameObject createLobbyButton = Get<GameObject>(GameObjects.Button_CreateLobby);
+        RateLimiter rateLimiter = Managers.Lobby.GetRateLimiter(ERequestType.Query);
+        createLobbyButton.SetRateLimited(rateLimiter);
+        BindEvent(createLobbyButton, OnClickCreateLobby);
     }
 
     void OnClickCreateLobby()
@@ -29,10 +32,6 @@ public class Panel_CreateLobby : UI_Base
         string lobbyName = Get<TMP_InputField>(TMP_InputFields.InputField_LobbyName).text;
         string lobbyPassword = Get<TMP_InputField>(TMP_InputFields.InputField_LobbyPassword).text;
 
-        // Create Lobby
-        if (string.IsNullOrEmpty(lobbyPassword))
-            Managers.Lobby.CreateLobbyWithPassword(4, lobbyName);
-        else
-            Managers.Lobby.CreateLobbyWithPassword(4, lobbyName, lobbyPassword);
+        Managers.Lobby.CreateLobby(lobbyName, false, null, 4);
     }
 }

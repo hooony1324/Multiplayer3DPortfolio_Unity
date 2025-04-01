@@ -373,7 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f26731e5bfb6794c802f46342d64cd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roomSlotPrefab: {fileID: 8082931394009036277, guid: d624cd8d257abf04aad3c8eee6054aed, type: 3}
+  _roomSlot: {fileID: 868072272880284171, guid: d624cd8d257abf04aad3c8eee6054aed, type: 3}
 --- !u!1 &296605686
 GameObject:
   m_ObjectHideFlags: 0

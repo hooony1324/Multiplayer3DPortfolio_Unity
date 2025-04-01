@@ -1,8 +1,9 @@
 using UnityEngine;
+using R3;
 
-public struct PopupMessageEvent : IEventData
+public readonly struct PopupMessageEvent
 {
-    public string Message { get; }
+    public readonly string Message;
     public PopupMessageEvent(string message)
     {
         Message = message;

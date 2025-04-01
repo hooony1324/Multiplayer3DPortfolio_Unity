@@ -22,10 +22,4 @@ public class UIContainer : InitializeBase
         _popupMessage.SetInfo(eventData.Message);
         
     }
-
-    void OnDestroy()
-    {
-        EventBus.Reset();
-    }
-
 }

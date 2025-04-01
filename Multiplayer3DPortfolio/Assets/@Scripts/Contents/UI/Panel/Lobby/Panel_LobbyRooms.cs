@@ -1,9 +1,11 @@
+using System.Collections.Generic;
+using R3;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Panel_LobbyRooms : UI_Base
 {
-    [SerializeField] private GameObject _roomSlotPrefab;
+    [SerializeField] private SlotItem_LobbyRoom _roomSlot;
 
     enum GameObjects
     {
@@ -23,22 +25,25 @@ public class Panel_LobbyRooms : UI_Base
             Destroy(child.gameObject);
         }
 
-        // for (int i = 0; i < 10; i++)
-        // {
-        //     GameObject obj = Instantiate(_roomSlotPrefab, _content);
-            
-        // }
+        
 
-        EventBus.Subscribe<LobbyListUpdateEvent>(OnLobbyListUpdate);
+        Managers.Lobby.LobbyList.CurrentLobbies.Subscribe(OnLobbyListUpdate);
     }
 
     void OnEnable()
     {
-        Managers.Lobby.RefreshLobbyList();
+        Managers.Lobby.RefreshLobbies();
     }
     
-    private void OnLobbyListUpdate(LobbyListUpdateEvent eventData)
+    private void OnLobbyListUpdate(Dictionary<string, LocalLobby> lobbies)
     {
-        Debug.Log("OnLobbyListUpdate: " + eventData.QueryResponse.Results.Count);
+        Debug.Log("OnLobbyListUpdate: " + lobbies.Count);
+
+        foreach (var lobby in lobbies)
+        {
+            var slot = Instantiate(_roomSlot, _content);
+            slot.SetData(lobby.Value);
+        }
+
     }
 }

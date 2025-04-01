@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class InitializeBase : MonoBehaviour
+public abstract class InitializeBase : ReactiveMonoBehaviour
 {
     private bool _isInitialized = false;
 
